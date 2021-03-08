@@ -6,21 +6,22 @@
 SHELL=/bin/bash
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin
 MAILTO="avalente@protonmail.com"
+
 # the maximal random delay added to the base delay of the jobs
 RANDOM_DELAY=5
 # the jobs will be started during the following hours only
 START_HOURS_RANGE=19-24
 
 # Backups all documents encrypted every day
-2	20	docs.backup	/usr/local/bin/remote-encrypted-backup documents $HOME/Documents rclone://remote:Duplicity/Documents 3M
+2	20	docs.backup	remote-encrypted-backup documents $HOME/Documents rclone://remote:Duplicity/Documents 3M
 
 # Backup keepass database daily
-@daily	0	keepass.backup	/usr/local/bin/remote-plaintext-backup keepass	$HOME/Documents/KeePass remote:KeePass
+@daily	0	keepass.backup	remote-plaintext-backup keepass	$HOME/Documents/KeePass remote:KeePass
 
 # Backup critical work files daily - no encryption
-@daily	5	dsi.backup	/usr/local/bin/remote-plaintext-backup plaintext $HOME/Documents/DSI remote:Documents/DSI
-@daily	10	tese.backup	/usr/local/bin/remote-plaintext-backup plaintext $HOME/Documents/MEIC/Tese remote:Documents/Tese
-@daily  15	notes.backup	/usr/local/bin/remote-plaintext-backup plaintext $HOME/Documents/Scripts/vimwiki remote:Documents/Notes
+@daily	5	dsi.backup	remote-plaintext-backup plaintext $HOME/Documents/DSI remote:Documents/DSI
+@daily	10	tese.backup	remote-plaintext-backup plaintext $HOME/Documents/MEIC/Tese remote:Documents/Tese
+@daily  15	notes.backup	remote-plaintext-backup plaintext $HOME/Documents/Scripts/vimwiki remote:Documents/Notes
 
 # Backup Configuration files every 2 weeks
 # 14	40	etc.backup	/usr/local/bin/remote-encrypted-backup etc	/etc/	Duplicity/etc	1Y
