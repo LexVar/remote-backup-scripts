@@ -23,14 +23,15 @@ Both scripts log the result to their log files, and email through a configured s
 ## Configuration
 
 The anacron directory `.anacron` can be moved to the user's home directory. The anacrontab file lists the backup jobs, how often they should be executed and at what times.
+The spool directory stores the last time each job was performed.
 
 Anacron is run every hour to check if updates are up to date, and run them if not. This line can be added to the user's crontab, with `crontab -e`, assuming the anacron directory structure is the same as this repo.
 
 > @hourly /usr/sbin/anacron -s -t $HOME/.anacron/etc/anacrontab -S $HOME/.anacron/spool
 
 ## Tools
-- duplicity version 0.8.18
-- rclone v1.53.3-DEV
+- [duplicity](http://duplicity.nongnu.org/) version 0.8.18
+- [rclone](https://rclone.org/) v1.53.3-DEV
 - crontab, anacron version 1.5.5-4
 - kwallet version 20.08.1-1
 - ssmtp 2.64-25
