@@ -63,14 +63,14 @@ if [ $? != 0 ]; then
 	printf "\n\n------------------------------\n\n" >> /tmp/mail.dup
 	tail -n 100 $LOG_DIR/$CODE.log >> /tmp/mail.dup
 
-	ssmtp -au $MAIL_SENDER -ap $MAIL_PASSPHRASE $MAILTO < /tmp/mail.dup
+	ssmtp -au $MAIL_SENDER -ap $MAIL_PASSPHRASE $MAILTO  </tmp/mail.dup
 else
 	MESSAGE="$(date +'%d %b %Y %H:%M')-- Finished execution of remote $CODE backup."
 fi
 
 echo $MESSAGE >> $LOG_DIR/$CODE.log 2>&1
 
-notify-send -u normal "Remote $CODE Backup" $MESSAGE -t 15000
+# notify-send -u normal "Remote $CODE Backup" $MESSAGE -t 15000
 
 # Delete older backups then 3 months
 duplicity remove-older-than 3M \
