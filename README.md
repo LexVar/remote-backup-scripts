@@ -18,8 +18,6 @@ Remote plaintext backups:
 
 Passphrases for encrypted backups are fetched from kwallet manager which needs to be unlocked.
 
-Both scripts log the result to their log files, and email through a configured ssmtp mailhub, to the user's email, when a backup finishes with errors.
-
 ## Configuration
 
 The anacron directory `.anacron` can be moved to the user's home directory. The anacrontab file lists the backup jobs, how often they should be executed and at what times.
@@ -34,4 +32,3 @@ Anacron is run every hour to check if updates are up to date, and run them if no
 - [rclone](https://rclone.org/) v1.53.3-DEV
 - crontab, anacron version 1.5.5-4
 - kwallet version 20.08.1-1
-- ssmtp 2.64-25
