@@ -6,6 +6,13 @@ if [ $# != 3 ]; then
 	exit 1
 fi
 
+wget -q --tries=10 --timeout=20 --spider http://google.com
+if [ $? != 0 ]; then
+        echo "Error: Host is not online"
+	exit 2
+fi
+
+
 LOG_DIR=/var/log/duplicity
 
 MAILTO="avalente@protonmail.com"
