@@ -39,7 +39,7 @@ if [ $CODE == "dotfiles" ]; then
 		--exclude **\*"
 elif [ $CODE == "documents" ]; then
 	FLAGS=" --exclude **$HOME/Documents/LEI** \
-		--exclude **$HOME/Documents/SSE-Drones**"
+		--exclude **$HOME/Documents/Jobs**"
 else
 	unset FLAGS
 fi
@@ -51,11 +51,6 @@ export DISPLAY=:0
 # Get the passphrase from kwallet.
 export PASSPHRASE=`kwallet-query kdewallet -f Passwords -r $CODE`
 
-# E-mail
-export MAILTO="avalente@protonmail.com"
-export MAIL_PASSPHRASE=`kwallet-query kdewallet -f Passwords -r mail-password`
-export MAIL_SENDER=`kwallet-query kdewallet -f Passwords -r mail-sender`
-
 # --------- FOR DEBUGGING ------------
 # duplicity --dry-run --verbosity 8 --allow-source-mismatch --full-if-older-than $FREQUENCY $FLAGS $SOURCE $TARGET
 # Backup files
@@ -63,20 +58,10 @@ duplicity --full-if-older-than $FREQUENCY $FLAGS $SOURCE $TARGET >> $LOG_DIR/$CO
 
 if [ $? != 0 ]; then
 	MESSAGE="Error code: $?. $(date +'%d %b %Y %H:%M')-- Error performing the $CODE backup."
-
-	printf "Subject: Error performing the $CODE backup.\n\n" > /tmp/mail.dup
-	echo $MESSAGE >> /tmp/mail.dup
-	printf "\n\n------------------------------\n\n" >> /tmp/mail.dup
-	tail -n 100 $LOG_DIR/$CODE.log >> /tmp/mail.dup
-
-	/sbin/ssmtp -au $MAIL_SENDER -ap $MAIL_PASSPHRASE $MAILTO  </tmp/mail.dup
 else
 	MESSAGE="$(date +'%d %b %Y %H:%M')-- Finished execution of remote $CODE backup."
 fi
-
 echo $MESSAGE >> $LOG_DIR/$CODE.log 2>&1
-
-# notify-send -u normal "Remote $CODE Backup" $MESSAGE -t 15000
 
 # Delete older backups then 3 months
 duplicity remove-older-than 3M \
@@ -85,7 +70,5 @@ duplicity remove-older-than 3M \
 
 # Unsetting the confidential variables so they are gone for sure.
 unset PASSPHRASE
-unset MAIL_PASSPHRASE
-unset MAIL_SENDER
 
 exit 0
